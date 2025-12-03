@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#1B5E20", "font": {"size": 15}, "id": "JD 11401", "label": "CRIMINAL LAW I", "shape": "dot", "size": 30, "title": "JD 11401 - CRIMINAL LAW I (Year 1)"}, {"color": "#81C784", "font": {"size": 15}, "id": "JD 12402", "label": "CRIMINAL LAW II", "shape": "dot", "size": 30, "title": "JD 12402 - CRIMINAL LAW II (Year 1)"}, {"color": "#1B5E20", "font": {"size": 15}, "id": "JD 11301", "label": "CONSTITUTIONAL LAW I", "shape": "dot", "size": 30, "title": "JD 11301 - CONSTITUTIONAL LAW I (Year 1)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21304", "label": "PUBLIC INTERNATIONAL LAW", "shape": "dot", "size": 30, "title": "JD 21304 - PUBLIC INTERNATIONAL LAW (Year 2)"}, {"color": "#1B5E20", "font": {"size": 15}, "id": "JD 11602", "label": "CIVIL PROCEDURE I", "shape": "dot", "size": 30, "title": "JD 11602 - CIVIL PROCEDURE I (Year 1)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21603", "label": "CIVIL PROCEDURE II", "shape": "dot", "size": 30, "title": "JD 21603 - CIVIL PROCEDURE II (Year 2)"}, {"color": "#81C784", "font": {"size": 15}, "id": "JD 12502", "label": "OBLIGATIONS AND CONTRACTS", "shape": "dot", "size": 30, "title": "JD 12502 - OBLIGATIONS AND CONTRACTS (Year 1)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21701", "label": "AGENCY, TRUST AND PARTNERSHIP LAW", "shape": "dot", "size": 30, "title": "JD 21701 - AGENCY, TRUST AND PARTNERSHIP LAW (Year 2)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21702", "label": "CORPORATION AND BASIC SECURITIES LAW", "shape": "dot", "size": 30, "title": "JD 21702 - CORPORATION AND BASIC SECURITIES LAW (Year 2)"}, {"color": "#81C784", "font": {"size": 15}, "id": "JD 12302", "label": "CONSTITUTIONAL LAW II", "shape": "dot", "size": 30, "title": "JD 12302 - CONSTITUTIONAL LAW II (Year 1)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21801", "label": "LABOR LAW AND SOCIAL LEGISLATIONS", "shape": "dot", "size": 30, "title": "JD 21801 - LABOR LAW AND SOCIAL LEGISLATIONS (Year 2)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22303", "label": "ADMINISTRATIVE, CIVIL SERVICE AND ELECTION LAWS", "shape": "dot", "size": 30, "title": "JD 22303 - ADMINISTRATIVE, CIVIL SERVICE AND ELECTION LAWS (Year 2)"}, {"color": "#1565C0", "font": {"size": 15}, "id": "JD 21501", "label": "PERSONS AND FAMILY LAW", "shape": "dot", "size": 30, "title": "JD 21501 - PERSONS AND FAMILY LAW (Year 2)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22504", "label": "BASIC SUCCESSION LAW", "shape": "dot", "size": 30, "title": "JD 22504 - BASIC SUCCESSION LAW (Year 2)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22604", "label": "EVIDENCE", "shape": "dot", "size": 30, "title": "JD 22604 - EVIDENCE (Year 2)"}, {"color": "#81C784", "font": {"size": 15}, "id": "JD 12601", "label": "CRIMINAL PROCEDURE", "shape": "dot", "size": 30, "title": "JD 12601 - CRIMINAL PROCEDURE (Year 1)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22703", "label": "COMMERCIAL LAWS I", "shape": "dot", "size": 30, "title": "JD 22703 - COMMERCIAL LAWS I (Year 2)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22901", "label": "BASIC TAXATION LAW", "shape": "dot", "size": 30, "title": "JD 22901 - BASIC TAXATION LAW (Year 2)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31305", "label": "LAWS ON LOCAL GOVERNMENT", "shape": "dot", "size": 30, "title": "JD 31305 - LAWS ON LOCAL GOVERNMENT (Year 3)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31505", "label": "TORTS AND DAMAGES", "shape": "dot", "size": 30, "title": "JD 31505 - TORTS AND DAMAGES (Year 3)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31506", "label": "PRIVATE INTERNATIONAL LAW", "shape": "dot", "size": 30, "title": "JD 31506 - PRIVATE INTERNATIONAL LAW (Year 3)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31605", "label": "SPECIAL RULES AND PROCEEDINGS", "shape": "dot", "size": 30, "title": "JD 31605 - SPECIAL RULES AND PROCEEDINGS (Year 3)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31704", "label": "COMMERCIAL LAWS II", "shape": "dot", "size": 30, "title": "JD 31704 - COMMERCIAL LAWS II (Year 3)"}, {"color": "#FFB74D", "font": {"size": 15}, "id": "JD 32304", "label": "ELECTION LAWS", "shape": "dot", "size": 30, "title": "JD 32304 - ELECTION LAWS (Year 3)"}, {"color": "#FFB74D", "font": {"size": 15}, "id": "JD 32607", "label": "MEDICAL JURISPRUDENCE", "shape": "dot", "size": 30, "title": "JD 32607 - MEDICAL JURISPRUDENCE (Year 3)"}, {"color": "#B71C1C", "font": {"size": 15}, "id": "JD 14307", "label": "POLITICAL AND INTERNATIONAL LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 14307 - POLITICAL AND INTERNATIONAL LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#B71C1C", "font": {"size": 15}, "id": "JD 14802", "label": "LABOR LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 14802 - LABOR LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#B71C1C", "font": {"size": 15}, "id": "JD 41403", "label": "CRIMINAL LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 41403 - CRIMINAL LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#B71C1C", "font": {"size": 15}, "id": "JD 41507", "label": "CIVIL LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 41507 - CIVIL LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#64B5F6", "font": {"size": 15}, "id": "JD 22503", "label": "PROPERTY AND LAND LAWS", "shape": "dot", "size": 30, "title": "JD 22503 - PROPERTY AND LAND LAWS (Year 2)"}, {"color": "#E57373", "font": {"size": 15}, "id": "JD 42606", "label": "REMEDIAL LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 42606 - REMEDIAL LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#E57373", "font": {"size": 15}, "id": "JD 42705", "label": "COMMERCIAL LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 42705 - COMMERCIAL LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#E57373", "font": {"size": 15}, "id": "JD 42902", "label": "TAXATION LAW REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 42902 - TAXATION LAW REVIEW AND INTEGRATION (Year 4)"}, {"color": "#1B5E20", "font": {"size": 15}, "id": "JD 11201", "label": "BASIC LEGAL AND JUDICIAL ETHICS", "shape": "dot", "size": 30, "title": "JD 11201 - BASIC LEGAL AND JUDICIAL ETHICS (Year 1)"}, {"color": "#E57373", "font": {"size": 15}, "id": "JD 43202", "label": "LEGAL AND JUDICIAL ETHICS AND PRACTICAL EXERCISES REVIEW AND INTEGRATION", "shape": "dot", "size": 30, "title": "JD 43202 - LEGAL AND JUDICIAL ETHICS AND PRACTICAL EXERCISES REVIEW AND INTEGRATION (Year 4)"}, {"color": "#E65100", "font": {"size": 15}, "id": "JD 31104", "label": "LEGAL FORMS", "shape": "dot", "size": 30, "title": "JD 31104 - LEGAL FORMS (Year 3)"}]);
+                  edges = new vis.DataSet([{"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11401", "to": "JD 12402", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11401", "to": "JD 31305", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11401", "to": "JD 32304", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11401", "to": "JD 41403", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12402", "to": "JD 41403", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11301", "to": "JD 21304", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11301", "to": "JD 22303", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11301", "to": "JD 22901", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11301", "to": "JD 14307", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21304", "to": "JD 14307", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11602", "to": "JD 21603", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11602", "to": "JD 22604", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11602", "to": "JD 42606", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21603", "to": "JD 22604", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21603", "to": "JD 42606", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 21701", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 21702", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 22703", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 31505", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 31704", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12502", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21701", "to": "JD 42705", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21702", "to": "JD 42705", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12302", "to": "JD 21801", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12302", "to": "JD 14307", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21801", "to": "JD 14802", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22303", "to": "JD 14307", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21501", "to": "JD 22504", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21501", "to": "JD 31506", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 21501", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22504", "to": "JD 31605", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22504", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22604", "to": "JD 32607", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22604", "to": "JD 42606", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12601", "to": "JD 22604", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 12601", "to": "JD 42606", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22703", "to": "JD 42705", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22901", "to": "JD 42902", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 31505", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 31506", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 31605", "to": "JD 42606", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 31704", "to": "JD 42705", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 22503", "to": "JD 41507", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 11201", "to": "JD 43202", "width": 1}, {"arrows": {"to": {"scaleFactor": 1}}, "from": "JD 31104", "to": "JD 43202", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"edges": {"arrows": {"to": {"enabled": true, "scaleFactor": 1.0}}, "width": 1}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
